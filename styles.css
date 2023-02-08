@@ -1,0 +1,150 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Jost", sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+header {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  margin: 3rem;
+  border-radius: 10px;
+  padding: 1rem;
+  background-color: #1b995e;
+  color: white;
+  text-align: center;
+}
+
+#app {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.setup-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.setup {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  margin: 0 auto;
+  gap: 8px;
+  color: #f1148e;
+}
+
+button  {
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #1b995e;
+  cursor: pointer;
+
+  margin: 0 auto;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 12px;
+  transition: all 0.2s ease-in-out;
+}
+
+button:active,
+button:hover {
+  transform: scale(0.95);
+}
+
+.setup-container button:disabled {
+  background-color: #9fa79f;
+  cursor: not-allowed;
+}
+
+.setup input {
+  border: 2px solid #1b995e;
+  padding: 8px;
+  font-size: 16px;
+}
+
+.squares-container {
+  margin: 0 64px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 12px 12px;
+}
+
+.square {
+  border: 2px dotted #ccc;
+  width: auto;
+  height: 150px;
+}
+
+.alertify-notifier .ajs-message.ajs-error {
+  color: #fff;
+  background: rgba(217, 92, 92, 0, 95);
+  text-shadow: -1px -1px 0 rgba(0, 0, 0, 0, 5);
+}
+
+.monster {
+  border-color: red;
+}
+
+.status-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.status {
+  display: flex;
+  flex-direction: column;
+	font-size: 24px;
+}
+
+.status span {
+	font-weight: bold;
+	padding: 4px 16px;
+}
+
+.status p {
+	margin: 4px;
+	font-weight: bold;
+}
+
+.in-game {
+	display: flex;
+	justify-content: center;
+	position: relative;
+}
+
+.score {
+	font-size: 24px;
+	
+	position: absolute;
+	right: 20%;
+	
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 4px;
+}
+
+.pause {
+	padding: 8px;
+	border: 1px solid #fff;
+	margin-left: 12px;
+}
+
+.yellow {
+	color: #fcc419;
+}
+
+.froze {
+	background-color: #ccc;
+}

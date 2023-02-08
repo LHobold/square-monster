@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monster Game</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/alertify.min.css"
+    integrity="sha512-IXuoq1aFd2wXs4NqGskwX2Vb+I8UJ+tGJEu/Dc0zwLNKeQ7CW3Sr6v0yU3z5OQWe3eScVIkER4J9L7byrgR/fA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/vue@next" defer></script>
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+  <div id="app">
+    <header>
+      <h1>MonsterSquare Game</h1>
+      <div v-if="started" class="in-game">
+        <div class="status-container">
+          <div class="status">
+            <i class="fa-sharp fa-solid fa-heart" style="color:red"></i>
+            <span>{{lifesRemaining}}</span>
+          </div>
+          <div class="status">
+            <i class="fa-solid fa-clock"></i>
+            <span>{{timeToKill}}</span>
+          </div>
+          <div class="status">
+            <i class="fa-regular fa-square"></i>
+            <span>{{numberOfSquares}}</span>
+          </div>
+
+          <button class="pause" @click="togglePause">{{pauseState}}</button>
+        </div>
+
+        <div :style="{color: starColor}" class="score">
+          <i class="fa-solid fa-star"></i>
+          <span style="font-size: 24px;margin-top: 0px;">{{score}}</span>
+        </div>
+
+
+      </div>
+
+    </header>
+    <div v-if="!started && !ended" class="setup-container">
+      <div class="setup">
+        <label for="squares">Number of squares</label>
+        <input v-model="numberOfSquares" id="squares" type="number">
+      </div>
+
+      <div class="setup">
+        <label for="time">Time to kill</label>
+        <input v-model="timeToKill" id="time" type="number">
+      </div>
+
+      <div class="setup">
+        <label for="time">Number of lifes</label>
+        <input v-model="numberOfLifes" id="time" type="number">
+      </div>
+
+      <div class="setup">
+        <label for="time">Minimun time to respawn</label>
+        <input v-model="minimunTimeToRespawn" id="time" type="number">
+      </div>
+
+      <button :disabled="startDisabled" @click="start">Start</button>
+    </div>
+
+    <div v-else-if="ended">
+      <h1 style="color:red;">Game Over</h1>
+      <h3 class="yellow" style="margin-bottom: 0px;"><i class="fa-solid fa-star"></i> Final Score <i
+          class="fa-solid fa-star"></i>
+      </h3>
+      <p class="yellow" style="font-size: 24px;margin-top: 0px;">{{score}}</p>
+
+      <button class="reset" @click="restart">Reset Game</button>
+    </div>
+
+    <div v-else>
+      <div class="squares-container">
+        <div @click="killMonster(index)" class="square" :class="{monster: square.hasMonster, froze: isPaused}"
+          v-for="(square, index) in squares"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js"
+    integrity="sha512-JnjG+Wt53GspUQXQhc+c4j8SBERsgJAoHeehagKHlxQN+MtCCmFDghX9/AcbkkNRZptyZU4zC8utK59M5L45Iw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+
+</html>
