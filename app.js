@@ -119,6 +119,10 @@ const app = Vue.createApp({
       }, spawnTime);
     },
     killMonster(index) {
+      if (this.isPaused) {
+        return;
+      }
+
       if (!this.squares[index].hasMonster) {
         this.lifesRemaining--;
         alertify.error("No monster");
