@@ -166,6 +166,7 @@ const app = Vue.createApp({
       this.started = false;
       this.ended = false;
       this.startDisabled = false;
+      this.score = 0;
 
       for (let i = 0; i < this.squares.length; i++) {
         clearInterval(this.squares[i].countdown);
