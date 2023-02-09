@@ -14,7 +14,7 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="styles.css" />
   <script src="https://unpkg.com/vue@next" defer></script>
-  <script src="app.js" defer></script>
+  <script type="module" src="app.js" defer></script>
 </head>
 
 <body>
@@ -37,6 +37,7 @@
           </div>
 
           <button class="pause" @click="togglePause">{{pauseState}}</button>
+          <button class="pause" @click="restart">Reset Game</button>
         </div>
 
         <div :style="{color: starColor}" class="score">
@@ -51,22 +52,32 @@
     <div v-if="!started && !ended" class="setup-container">
       <div class="setup">
         <label for="squares">Number of squares</label>
-        <input v-model="numberOfSquares" id="squares" type="number">
+        <input :min="minSquares" v-model="numberOfSquares" id="squares" type="number">
       </div>
 
       <div class="setup">
         <label for="time">Time to kill</label>
-        <input v-model="timeToKill" id="time" type="number">
+        <input min="1" :max="maxTimeToKill" v-model="timeToKill" id="time" type="number">
       </div>
 
       <div class="setup">
         <label for="time">Number of lifes</label>
-        <input v-model="numberOfLifes" id="time" type="number">
+        <input min="1" max="999" v-model="numberOfLifes" id="time" type="number">
       </div>
 
       <div class="setup">
         <label for="time">Minimun time to respawn</label>
-        <input v-model="minimunTimeToRespawn" id="time" type="number">
+        <input min="0" :max="maxTimeToRespawn" v-model="minimunTimeToRespawn" id="time" type="number">
+      </div>
+
+      <div class="setup">
+        <label for="difficulty">Difficuly</label>
+        <select v-model="difficulty" id="difficulty">
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+          <option value="impossible">Impossible</option>
+        </select>
       </div>
 
       <button :disabled="startDisabled" @click="start">Start</button>
@@ -82,10 +93,10 @@
       <button class="reset" @click="restart">Reset Game</button>
     </div>
 
-    <div v-else>
-      <div class="squares-container">
-        <div @click="killMonster(index)" class="square" :class="{monster: square.hasMonster, froze: isPaused}"
-          v-for="(square, index) in squares"></div>
+    <div class="game-container" v-else>
+      <div class="squares-container" @click="difficulty === 'impossible' && wrongClick($event)">
+        <div @click="killMonster(index)" class="square" :style="{width: `${squareWidth}px`}"
+          :class="{monster: square.hasMonster, froze: isPaused}" v-for="(square, index) in squares"></div>
       </div>
     </div>
   </div>

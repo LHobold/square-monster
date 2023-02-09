@@ -1,3 +1,6 @@
+import difficulyDefaults from "./config/difficulyDefaults.mjs";
+import difficultyDefaults from "./config/difficulyDefaults.mjs";
+
 const app = Vue.createApp({
   data() {
     return {
@@ -8,11 +11,12 @@ const app = Vue.createApp({
       startDisabled: false,
       numberOfSquares: 5,
       timeToKill: 5,
-      numberOfLifes: 10,
+      numberOfLifes: 20,
       lifesRemaining: 0,
       minimunTimeToRespawn: 0,
       squares: [],
       score: 0,
+      difficulty: "medium",
     };
   },
   watch: {
@@ -55,6 +59,12 @@ const app = Vue.createApp({
         }
       },
     },
+    difficulty(difficulty) {
+      this.numberOfSquares = difficultyDefaults.defaults[difficulty].numberOfSquares;
+      this.timeToKill = difficultyDefaults.defaults[difficulty].timeToKill;
+      this.minimunTimeToRespawn = difficultyDefaults.defaults[difficulty].minimunTimeToRespawn;
+      this.numberOfLifes = difficultyDefaults.defaults[difficulty].numberOfLifes;
+    },
   },
   computed: {
     starColor() {
@@ -74,6 +84,18 @@ const app = Vue.createApp({
       } else {
         return "Pause";
       }
+    },
+    squareWidth() {
+      return difficulyDefaults.squareWidths[this.difficulty];
+    },
+    minSquares() {
+      return difficultyDefaults.minSquares[this.difficulty];
+    },
+    maxTimeToRespawn() {
+      return difficultyDefaults.maxTimeToRespawn[this.difficulty];
+    },
+    maxTimeToKill() {
+      return difficultyDefaults.maxTimeToKill[this.difficulty];
     },
   },
   methods: {
@@ -144,6 +166,12 @@ const app = Vue.createApp({
       this.started = false;
       this.ended = false;
       this.startDisabled = false;
+
+      for (let i = 0; i < this.squares.length; i++) {
+        clearInterval(this.squares[i].countdown);
+        clearTimeout(this.squares[i].spawner);
+      }
+
       this.squares = [];
     },
     togglePause() {
@@ -157,6 +185,15 @@ const app = Vue.createApp({
       }
 
       this.isPaused = !this.isPaused;
+    },
+    wrongClick(event) {
+      if (this.isPaused) {
+        return;
+      }
+
+      if (!event.target.classList.contains("square")) {
+        this.lifesRemaining--;
+      }
     },
   },
 });
